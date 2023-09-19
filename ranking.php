@@ -1,8 +1,8 @@
 <?php
 $mysqli = new mysqli("localhost", "root", "", "TenisDeMesa");
-$query = "SELECT * FROM ranking_tenis_de_mesa";
+$query = "SELECT * FROM ranking_tenis_de_mesa ORDER BY pontuacao DESC";
 $resultados = $mysqli->query($query);
-
+$i = 1;
 ?>
 
 <!DOCTYPE html>
@@ -27,7 +27,7 @@ $resultados = $mysqli->query($query);
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item"><a class="nav-link" href="./index.html">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" aria-current="page" href="./cadastro.html">Cadastro</a></li>
+                        <li class="nav-item"><a class="nav-link" aria-current="page" href="./cadastroUsuario.php">Cadastro</a></li>
                         <li class="nav-item"><a class="nav-link" href="#!">Torneios</a></li>
                         <li class="nav-item"><a class="nav-link  active" href="#!">Ranking</a></li>
                     </ul>
@@ -46,18 +46,24 @@ $resultados = $mysqli->query($query);
                 <tbody>
                     <?php foreach($resultados as $resultado){ ?>
                     <tr>
-                    <td><?= $resultado['id'];?></td>
+                    <td><?= $i;?></td>
                     <td><?= $resultado['nacao'];?></td>
                     <td><?= $resultado['nome'];?></td>
                     <td><?= $resultado['pontuacao'];?></td>
                     </tr>
-                    <?php } ?>
+                    <?php 
+                $i++;} ?>
                 </tbody>
             </table>
         </div>
-        <form action="incluirProduto.php" class="form">
-            <label for=""></label><input type="text"> 
-        </form>
+        <div class="container py-5">
+            <form action="incluirProduto.php" class="form">
+                <div class="form-input"><label for="Nacao">Nação</label><input id="Nacao" class="form-control" type="text"></div>
+                <div class="form-input"><label for="Nome">Nome</label><input id="Nome" class="form-control" type="text"></div>
+                <div class="form-input"><label for="Pontuacao">Pontuação</label><input id="Pontuacao" class="form-control" type="text"></div> <br>
+                <button class="btn btn-danger" type="submit">Adicionar</button>
+            </form>
+        </div>
         <?php
             $query
         ?>
