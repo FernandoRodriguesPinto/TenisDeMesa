@@ -5,35 +5,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
     $senha = $_POST["senha"];
 
-    $mysqli = new mysqli("localhost", "seu_usuario", "sua_senha", "seu_banco_de_dados");
+    $mysqli = new mysqli("localhost", "root", "", "TenisDeMesa");
 
     if ($mysqli->connect_error) {
         die("Erro na conexão com o banco de dados: " . $mysqli->connect_error);
     }
 
-    $query = "SELECT * FROM usuarios WHERE email = ? AND senha = ?";
+    $query = "SELECT * FROM usuario WHERE email = ?";
     $stmt = $mysqli->prepare($query);
 
     if ($stmt === false) {
         die("Erro na preparação da consulta: " . $mysqli->error);
     }
 
-    $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
-
-    $stmt->bind_param("ss", $email, $senhaHash);
+    $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
-    if ($result->num_rows === 1) {
-        $_SESSION["nomeUsuario"] = $nome; 
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        if ($senha == $row['senha']) {
+            $_SESSION["nomeUsuario"] = $row["nome"]; 
 
-        header("Location: index.html");
-        exit;
+            header("Location: index.php");
+            exit;
+        } else {
+            echo "Senha incorreta.";
+        }
     } else {
-
-        echo "Email ou senha incorretos.";
+        echo "Email não encontrado.";
     }
-
 
     $stmt->close();
     $mysqli->close();

@@ -24,11 +24,17 @@ session_start();
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="./index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./index.php">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="#!">Torneios</a></li>
                     <li class="nav-item"><a class="nav-link" href="./ranking.php">Ranking</a></li>
                     <li class="nav-item"><a class="nav-link" href="./ranking.php"></a></li>
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="./cadastro.php">Cadastro</a></li>
+                    <?php
+                        if(isset($_SESSION['nomeUsuario'])){ ?>
+                        <li class="nav-item"><a class="nav-link" href="./cadastro.php"><?= $_SESSION['nomeUsuario'] ?></a></li>
+
+                        <?php }else { ?>
+                        <li class="nav-item"><a class="nav-link" href="./cadastro.php">Cadastro</a></li>
+                        <?php } ?>
                 </ul>
             </div>
         </div>
@@ -41,7 +47,7 @@ session_start();
                 <div class="form-input"><label for="Email">E-mail</label><input id="email" name="email" class="form-control" type="email"></div>
                 <div class="form-input"><label for="Senha">Senha</label><input id="senha" name="senha" class="form-control" type="password"></div> <br>
                 <button class="btn btn-danger" type="submit">Cadastrar</button>
-                <a href="./login.php" class="btn btn-danger ">Faça login</a>
+                <a href="./login.php" class="btn btn-sm btn-primary ">Faça login</a>
             </form>
         </div>
     </div>
